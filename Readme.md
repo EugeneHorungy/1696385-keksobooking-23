@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Евгений Хорунжий](https://up.htmlacademy.ru/javascript/23/user/1696385).
-* Наставник: `Неизвестно`.
+* Наставник: [Elizaveta Kryazhkova](https://htmlacademy.ru/profile/id320787).
 
 ---
 

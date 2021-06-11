@@ -1,4 +1,4 @@
-import {getIntNumber, getFloatNumber, getElementsArray, getArrayNumbers} from './utils.js';
+import {getIntNumber, getFloatNumber, getElementsArray} from './utils.js';
 
 const TYPES_HOUSE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const TIMES = ['12:00', '13:00', '14:00'];
@@ -17,25 +17,25 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-/*Вызывается для создания массива чисел 1-10 и дальнейшего его использования
-при генерации объекта author.*/
-const amountAds = getArrayNumbers(1, 10);
+const createRandomAuthor = (min, max) => {
+  const amountAds = [];
 
-// Функция генерирующая объект author
-const createAuthor = () => {
-  const author = {};
-  author.avatar = `img/avatars/user0${amountAds[0]}.png`;
-  amountAds.splice(0, 1);
-  if (author.avatar === 'img/avatars/user010.png') {
-    author.avatar = 'img/avatars/user10.png';
-  }
-  return author;
+  return () => {
+    const author = {};
+    let randomNumber = getIntNumber(min, max);
+    while (amountAds.includes(randomNumber)) {
+      randomNumber = getIntNumber(min, max);
+    }
+    amountAds.push(randomNumber);
+    author.avatar = `img/avatars/user0${randomNumber}.png`;
+    if (randomNumber < 10) {
+      author.avatar = `img/avatars/user0${randomNumber}.png`;
+    } else {author.avatar = `img/avatars/user${randomNumber}.png`;}
+    return author;
+  };
 };
 
-/*Вызов функции задан в перенную для дальнейшего использования этой переменной
-в функции createOffer, чтобы передаваемый случайный индекс был одинаков
-при формировании значений title, type и description из соответствующих массивов.*/
-const getOfferIndex = getIntNumber(0, 4);
+const createAuthor = createRandomAuthor(1, 10);
 
 // Фунция возвращающая объект со свойствами в виде случайных географических координат.
 const createLocation = () => {
@@ -45,12 +45,12 @@ const createLocation = () => {
   return location;
 };
 
-/*Вызывается для получения фиксированных географических координат
-и последующего использования их в фунции createOffer.*/
-const getLocation = createLocation();
+// const getLocation = createLocation();
 
 // Фунция генерирующая объект с заданными ключами.
 const createOffer = () => {
+  const getOfferIndex = getIntNumber(0, 4);
+  const getLocation = createLocation();
   const offer = {
     title: TITLES[getOfferIndex],
     address: `${getLocation.lat}, ${getLocation.lng}`,
@@ -69,8 +69,9 @@ const createOffer = () => {
 
 const createAd = () => {
   const ad = {};
+  const getLocation = createLocation();
   ad.author = createAuthor();
-  ad.offer = createOffer();
+  ad.offer = createOffer(getLocation);
   ad.location = getLocation;
   return ad;
 };

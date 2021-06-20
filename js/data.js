@@ -3,7 +3,13 @@ import {getIntNumber, getFloatNumber, getElementsArray} from './utils.js';
 const TYPES_HOUSE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const TIMES = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const TITLES = ['Роскошный дворец', 'Квартира', 'Городской особняк', 'Уютное бунгало', 'Комфортабельный отель'];
+const TITLES = [
+  'Роскошный дворец',
+  'Квартира',
+  'Городской особняк',
+  'Уютное бунгало',
+  'Комфортабельный отель',
+];
 const DESCRIPTIONS = [
   'Подойдёт для организации конференций и других вечеринок.',
   'Из окон открывается отличный вид на Токио.',

@@ -55,6 +55,34 @@ const isValue = (value, element) => {
   }
 };
 
+/* Функция отдаёт правильный падеж
+ для комнат в завимости от их кол-ва.*/
+const getCaseRooms = (array) => {
+  const lastNumber = +array[array.length - 1];
+  let endRooms = '';
+
+  if (lastNumber === 1) {
+    endRooms = 'а';
+  } else if (lastNumber > 1 && lastNumber < 5) {
+    endRooms = 'ы';
+  }
+
+  return endRooms;
+};
+
+/* Функция отдаёт правильный падеж
+ для гостей в завимости от их кол-ва.*/
+const getCaseGuests = (array) => {
+  const lastNumber = +array[array.length - 1];
+  let endGuests = 'ей';
+
+  if (lastNumber === 1) {
+    endGuests = 'я';
+  }
+
+  return endGuests;
+};
+
 const createCards = () => {
   const similarCards = [];
 
@@ -71,39 +99,18 @@ const createCards = () => {
 
     title.textContent = createAdList[i].offer.title;
     isValue(createAdList[i].offer.title, title);
-    // if (!createAdList[i].offer.title) {
-    //   title.remove();
-    // }
     address.textContent = createAdList[i].offer.address;
     isValue(createAdList[i].offer.address, address);
-    // if (!createAdList[i].offer.address) {
-    //   address.remove();
-    // }
     price.textContent = `${createAdList[i].offer.price} ₽/ночь`;
     isValue(createAdList[i].offer.price, price);
-    // if (!createAdList[i].offer.price) {
-    //   price.remove();
-    // }
-    capacity.textContent = `${createAdList[i].offer.rooms} комнаты для ${createAdList[i].offer.guests} гостей`;
+    capacity.textContent = `${createAdList[i].offer.rooms} комнат${getCaseRooms(Array.from(createAdList[i].offer.rooms.toString()))} для ${createAdList[i].offer.guests} гост${getCaseGuests(Array.from(createAdList[i].offer.guests.toString()))}`;
     isValue(createAdList[i].offer.rooms || createAdList[i].offer.guests, capacity);
-    // if (!createAdList[i].offer.rooms || !createAdList[i].offer.guests) {
-    //   capacity.remove();
-    // }
     timeCheck.textContent = `Заезд после ${createAdList[i].offer.checkin}, выезд до ${createAdList[i].offer.checkout}`;
     isValue(createAdList[i].offer.checkin || createAdList[i].offer.checkout, timeCheck);
-    // if (!createAdList[i].offer.checkin || !createAdList[i].offer.checkout) {
-    //   timeCheck.remove();
-    // }
     type.textContent = getType(createAdList[i].offer.type);
     isValue(createAdList[i].offer.type, type);
-    // if (!createAdList[i].offer.type) {
-    //   type.remove();
-    // }
     description.textContent = createAdList[i].offer.description;
     isValue(createAdList[i].offer.description, description);
-    // if (!createAdList[i].offer.description) {
-    //   description.remove();
-    // }
     avatar.src = createAdList[i].author.avatar;
     getFeatures(i, card);
     getPhotos(i, card);

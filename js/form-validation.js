@@ -4,6 +4,13 @@ const userAdTitle = userAd.querySelector('input[name="title"]');
 const userAdPrice = userAd.querySelector('input[name="price"]');
 const userAdRooms = userAd.querySelector('select[name="rooms"]');
 const userAdCapacity = userAd.querySelector('select[name="capacity"]');
+const optionsCapacity = userAdCapacity.children;
+
+document.addEventListener('DOMContentLoaded', () => {
+  Array.from(optionsCapacity)[0].setAttribute('disabled', 'disabled');
+  Array.from(optionsCapacity)[1].setAttribute('disabled', 'disabled');
+  Array.from(optionsCapacity)[3].setAttribute('disabled', 'disabled');
+});
 
 userAdTitle.addEventListener('input', () => {
   const valueLength = userAdTitle.value.length;
@@ -30,8 +37,6 @@ userAdPrice.addEventListener('input', () => {
 });
 
 userAdRooms.addEventListener('change', (evt) => {
-  const optionsCapacity = userAdCapacity.children;
-
   Array.from(optionsCapacity).forEach((element) => element.removeAttribute('disabled'));
 
   if (evt.target.value === '1') {

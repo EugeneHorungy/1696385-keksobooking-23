@@ -95,3 +95,11 @@ userAdType.addEventListener('change', (evt) => {
       changePriceAttribute('10000');
   }
 });
+
+userAdCheckin.addEventListener('change', () => {
+  userAdCheckout.value = userAdCheckin.value;
+});
+
+userAdCheckout.addEventListener('change', () => {
+  userAdCheckin.value = userAdCheckout.value;
+});

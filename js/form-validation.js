@@ -5,6 +5,9 @@ const userAdPrice = userAd.querySelector('input[name="price"]');
 const userAdRooms = userAd.querySelector('select[name="rooms"]');
 const userAdCapacity = userAd.querySelector('select[name="capacity"]');
 const optionsCapacity = userAdCapacity.children;
+const userAdType = userAd.querySelector('select[name="type"]');
+const userAdCheckin = userAd.querySelector('select[name="timein"]');
+const userAdCheckout = userAd.querySelector('select[name="timeout"]');
 
 document.addEventListener('DOMContentLoaded', () => {
   Array.from(optionsCapacity)[0].setAttribute('disabled', 'disabled');
@@ -34,6 +37,20 @@ userAdPrice.addEventListener('input', () => {
   } else {
     userAdPrice.setCustomValidity('');
   }
+
+  userAdPrice.reportValidity();
+});
+
+userAdPrice.addEventListener('input', () => {
+  const minPrice = +userAdPrice.placeholder;
+
+  if (userAdPrice.value > 1000000 || userAdPrice.value < minPrice) {
+    userAdPrice.setCustomValidity(`Минимальная цена ${minPrice}. Максимальная цена 1000000.`);
+  } else {
+    userAdPrice.setCustomValidity('');
+  }
+
+  userAdPrice.reportValidity();
 });
 
 userAdRooms.addEventListener('change', (evt) => {
@@ -53,5 +70,28 @@ userAdRooms.addEventListener('change', (evt) => {
     Array.from(optionsCapacity)[1].setAttribute('disabled', 'disabled');
     Array.from(optionsCapacity)[2].setAttribute('disabled', 'disabled');
   }
-  // Говнокод какой-то получается;(
+});
+
+const changePriceAttribute = (minPrice) => {
+  userAdPrice.setAttribute('min', minPrice);
+  userAdPrice.setAttribute('placeholder', minPrice);
+};
+
+userAdType.addEventListener('change', (evt) => {
+  switch (evt.target.value) {
+    case 'bungalow':
+      changePriceAttribute('0');
+      break;
+    case 'flat':
+      changePriceAttribute('1000');
+      break;
+    case 'hotel':
+      changePriceAttribute('3000');
+      break;
+    case 'house':
+      changePriceAttribute('5000');
+      break;
+    case 'palace':
+      changePriceAttribute('10000');
+  }
 });

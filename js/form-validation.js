@@ -4,15 +4,16 @@ const userAdTitle = userAd.querySelector('input[name="title"]');
 const userAdPrice = userAd.querySelector('input[name="price"]');
 const userAdRooms = userAd.querySelector('select[name="rooms"]');
 const userAdCapacity = userAd.querySelector('select[name="capacity"]');
-const optionsCapacity = userAdCapacity.children;
+// const optionsCapacity = Array.from(userAdCapacity.children;)  userAdCapacity.children;
+const optionsCapacity = Array.from(userAdCapacity.children);
 const userAdType = userAd.querySelector('select[name="type"]');
 const userAdCheckin = userAd.querySelector('select[name="timein"]');
 const userAdCheckout = userAd.querySelector('select[name="timeout"]');
 
 document.addEventListener('DOMContentLoaded', () => {
-  Array.from(optionsCapacity)[0].setAttribute('disabled', 'disabled');
-  Array.from(optionsCapacity)[1].setAttribute('disabled', 'disabled');
-  Array.from(optionsCapacity)[3].setAttribute('disabled', 'disabled');
+  optionsCapacity[0].setAttribute('disabled', 'disabled');
+  optionsCapacity[1].setAttribute('disabled', 'disabled');
+  optionsCapacity[3].setAttribute('disabled', 'disabled');
 });
 
 userAdTitle.addEventListener('input', () => {
@@ -53,22 +54,22 @@ userAdPrice.addEventListener('input', () => {
   userAdPrice.reportValidity();
 });
 
-userAdRooms.addEventListener('change', (evt) => {
-  Array.from(optionsCapacity).forEach((element) => element.removeAttribute('disabled'));
+const addAttributeDisabled = (array) => {
+  optionsCapacity.forEach((element) => element.removeAttribute('disabled'));
+  for (let i = 0; i < array.length; i++) {
+    optionsCapacity[array[i]].setAttribute('disabled', 'disabled');
+  }
+};
 
+userAdRooms.addEventListener('change', (evt) => {
   if (evt.target.value === '1') {
-    Array.from(optionsCapacity)[0].setAttribute('disabled', 'disabled');
-    Array.from(optionsCapacity)[1].setAttribute('disabled', 'disabled');
-    Array.from(optionsCapacity)[3].setAttribute('disabled', 'disabled');
+    addAttributeDisabled([0, 1, 3]);
   } else if (evt.target.value === '2') {
-    Array.from(optionsCapacity)[0].setAttribute('disabled', 'disabled');
-    Array.from(optionsCapacity)[3].setAttribute('disabled', 'disabled');
+    addAttributeDisabled([0, 3]);
   } else if (evt.target.value === '3') {
-    Array.from(optionsCapacity)[3].setAttribute('disabled', 'disabled');
+    addAttributeDisabled([3]);
   } else if (evt.target.value === '100') {
-    Array.from(optionsCapacity)[0].setAttribute('disabled', 'disabled');
-    Array.from(optionsCapacity)[1].setAttribute('disabled', 'disabled');
-    Array.from(optionsCapacity)[2].setAttribute('disabled', 'disabled');
+    addAttributeDisabled([0, 1, 2]);
   }
 });
 

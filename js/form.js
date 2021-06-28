@@ -22,6 +22,5 @@ const activatePage = () => {
 };
 
 disablePage();
-activatePage();
 
-export {userAd};
+export {userAd, activatePage};

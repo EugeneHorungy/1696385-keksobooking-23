@@ -1,6 +1,6 @@
 import {createAdList} from './data.js';
 
-const map = document.querySelector('.map__canvas');
+// const map = document.querySelector('.map__canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 /* Функция обрабатывает массив с удобствами, и в соответствии
@@ -103,15 +103,27 @@ const createCards = () => {
     isValue(createAdList[i].offer.address, address);
     price.textContent = `${createAdList[i].offer.price} ₽/ночь`;
     isValue(createAdList[i].offer.price, price);
-    capacity.textContent = `${createAdList[i].offer.rooms} комнат${getCaseRooms(Array.from(createAdList[i].offer.rooms.toString()))} для ${createAdList[i].offer.guests} гост${getCaseGuests(Array.from(createAdList[i].offer.guests.toString()))}`;
-    isValue(createAdList[i].offer.rooms || createAdList[i].offer.guests, capacity);
+
+    if (createAdList[i].offer.rooms === undefined || createAdList[i].offer.guests === undefined) {
+      capacity.remove();
+    } else {
+      capacity.textContent = `${createAdList[i].offer.rooms} комнат${getCaseRooms(Array.from(createAdList[i].offer.rooms.toString()))} для ${createAdList[i].offer.guests} гост${getCaseGuests(Array.from(createAdList[i].offer.guests.toString()))}`;
+    }
+
     timeCheck.textContent = `Заезд после ${createAdList[i].offer.checkin}, выезд до ${createAdList[i].offer.checkout}`;
-    isValue(createAdList[i].offer.checkin || createAdList[i].offer.checkout, timeCheck);
+    isValue(createAdList[i].offer.checkin, timeCheck);
+    isValue(createAdList[i].offer.checkout, timeCheck);
     type.textContent = getType(createAdList[i].offer.type);
     isValue(createAdList[i].offer.type, type);
     description.textContent = createAdList[i].offer.description;
     isValue(createAdList[i].offer.description, description);
-    avatar.src = createAdList[i].author.avatar;
+
+    if (!createAdList[i].author) {
+      avatar.remove();
+    } else {
+      avatar.src = createAdList[i].author.avatar;
+    }
+
     getFeatures(i, card);
     getPhotos(i, card);
     similarCards.push(card);
@@ -121,6 +133,5 @@ const createCards = () => {
 };
 
 const cards = createCards();
-map.appendChild(cards[0]);
-map.appendChild(cards[1]);
-map.appendChild(cards[2]);
+
+export {cards};

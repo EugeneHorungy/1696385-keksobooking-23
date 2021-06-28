@@ -25,7 +25,7 @@ L.tileLayer(
 ).addTo(map);
 
 const mainPinMarker = L.icon({
-  iconUrl: '../img/main-pin.svg',
+  iconUrl: './img/main-pin.svg',
   iconSize: [52, 52],
   iconAnchor: [26, 52],
 });
@@ -63,7 +63,7 @@ resetButton.addEventListener('click', () => {
 
 for (let i = 0; i < createAdList.length; i++) {
   const icon = L.icon({
-    iconUrl: '../img/pin.svg',
+    iconUrl: './img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
   });

@@ -1,37 +1,41 @@
-import {createAdList} from './data.js';
-
-// const map = document.querySelector('.map__canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 /* Функция обрабатывает массив с удобствами, и в соответствии
  с ним выводит в карточку обьявления определённые иконки. */
-const getFeatures = (element, card) => {
-  const featuresAd = createAdList[element].offer.features;
+const getFeatures = (element, card, dataArray) => {
+  const featuresAd = dataArray[element].offer.features;
   const featureListElement = card.querySelector('.popup__features');
-  const modifiers =  featuresAd.map((feature) => `popup__feature--${feature}`);
 
-  featureListElement.querySelectorAll('.popup__feature').forEach((item) => {
-    const modifier = item.classList[1];
+  try {
+    const modifiers =  featuresAd.map((feature) => `popup__feature--${feature}`);
 
-    if (!modifiers.includes(modifier)) {
-      item.remove();
-    }
-  });
+    featureListElement.querySelectorAll('.popup__feature').forEach((item) => {
+      const modifier = item.classList[1];
+
+      if (!modifiers.includes(modifier)) {
+        item.remove();
+      }
+    });
+  } catch (error) {
+    featureListElement.remove();
+  }
 };
 
-const getPhotos = (element, card) => {
-  const photosAd = createAdList[element].offer.photos;
+const getPhotos = (element, card, dataArray) => {
+  const photosAd = dataArray[element].offer.photos;
   const photosElement = card.querySelector('.popup__photos');
   const photoItem = photosElement.querySelector('.popup__photo');
 
-  photoItem.remove();
-
-  photosAd.forEach((item) => {
-    const photo = photoItem.cloneNode(false);
-    photoItem.remove();
-    photo.src = item;
-    photosElement.appendChild(photo);
-  });
+  try {
+    photosAd.forEach((item) => {
+      const photo = photoItem.cloneNode(false);
+      photoItem.remove();
+      photo.src = item;
+      photosElement.appendChild(photo);
+    });
+  } catch (error) {
+    photosElement.remove();
+  }
 };
 
 function getType (type) {
@@ -83,10 +87,10 @@ const getCaseGuests = (array) => {
   return endGuests;
 };
 
-const createCards = () => {
+const createCards = (adsData) => {
   const similarCards = [];
 
-  for (let i = 0; i < createAdList.length; i++) {
+  for (let i = 0; i < adsData.length; i++) {
     const card = cardTemplate.cloneNode(true);
     const title = card.querySelector('.popup__title');
     const address = card.querySelector('.popup__text--address');
@@ -97,41 +101,38 @@ const createCards = () => {
     const description = card.querySelector('.popup__description');
     const avatar = card.querySelector('.popup__avatar');
 
-    title.textContent = createAdList[i].offer.title;
-    isValue(createAdList[i].offer.title, title);
-    address.textContent = createAdList[i].offer.address;
-    isValue(createAdList[i].offer.address, address);
-    price.textContent = `${createAdList[i].offer.price} ₽/ночь`;
-    isValue(createAdList[i].offer.price, price);
+    title.textContent = adsData[i].offer.title;
+    isValue(adsData[i].offer.title, title);
+    address.textContent = adsData[i].offer.address;
+    isValue(adsData[i].offer.address, address);
+    price.textContent = `${adsData[i].offer.price} ₽/ночь`;
+    isValue(adsData[i].offer.price, price);
 
-    if (createAdList[i].offer.rooms === undefined || createAdList[i].offer.guests === undefined) {
+    if (adsData[i].offer.rooms === undefined || adsData[i].offer.guests === undefined) {
       capacity.remove();
     } else {
-      capacity.textContent = `${createAdList[i].offer.rooms} комнат${getCaseRooms(Array.from(createAdList[i].offer.rooms.toString()))} для ${createAdList[i].offer.guests} гост${getCaseGuests(Array.from(createAdList[i].offer.guests.toString()))}`;
+      capacity.textContent = `${adsData[i].offer.rooms} комнат${getCaseRooms(Array.from(adsData[i].offer.rooms.toString()))} для ${adsData[i].offer.guests} гост${getCaseGuests(Array.from(adsData[i].offer.guests.toString()))}`;
     }
 
-    timeCheck.textContent = `Заезд после ${createAdList[i].offer.checkin}, выезд до ${createAdList[i].offer.checkout}`;
-    isValue(createAdList[i].offer.checkin, timeCheck);
-    isValue(createAdList[i].offer.checkout, timeCheck);
-    type.textContent = getType(createAdList[i].offer.type);
-    isValue(createAdList[i].offer.type, type);
-    description.textContent = createAdList[i].offer.description;
-    isValue(createAdList[i].offer.description, description);
+    timeCheck.textContent = `Заезд после ${adsData[i].offer.checkin}, выезд до ${adsData[i].offer.checkout}`;
+    isValue(adsData[i].offer.checkin, timeCheck);
+    isValue(adsData[i].offer.checkout, timeCheck);
+    type.textContent = getType(adsData[i].offer.type);
+    isValue(adsData[i].offer.type, type);
+    description.textContent = adsData[i].offer.description;
+    isValue(adsData[i].offer.description, description);
 
-    if (!createAdList[i].author) {
+    if (!adsData[i].author) {
       avatar.remove();
     } else {
-      avatar.src = createAdList[i].author.avatar;
+      avatar.src = adsData[i].author.avatar;
     }
-
-    getFeatures(i, card);
-    getPhotos(i, card);
+    getFeatures(i, card, adsData);
+    getPhotos(i, card, adsData);
     similarCards.push(card);
   }
 
   return similarCards;
 };
 
-const cards = createCards();
-
-export {cards};
+export {createCards};

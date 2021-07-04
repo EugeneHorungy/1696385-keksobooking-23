@@ -1,7 +1,12 @@
+import {sendUserData} from './requests.js';
+import {showModalSuccess, showModalError} from './modal.js';
+import {resetMap} from './map.js';
+
 const userAd = document.querySelector('.ad-form');
 const userAdFieldsets = userAd.querySelectorAll('fieldset');
 const filterForm = document.querySelector('.map__filters');
 const filterFormElements = filterForm.children;
+const resetButton = userAd.querySelector('.ad-form__reset');
 
 const disablePage = () => {
   userAd.classList.add('ad-form--disabled');
@@ -21,6 +26,15 @@ const activatePage = () => {
   Array.from(filterFormElements).forEach((element) => element.removeAttribute('disabled'));
 };
 
-disablePage();
+userAd.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  sendUserData(showModalSuccess, showModalError, new FormData(userAd));
+});
 
-export {userAd, activatePage};
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetMap();
+  userAd.reset();
+});
+
+export {userAd, disablePage, activatePage};

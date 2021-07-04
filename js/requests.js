@@ -1,5 +1,6 @@
 import {resetMap} from './map.js';
-import {userAd} from './form.js';
+import {resetForm} from './form.js';
+import {resetFilter} from './filter.js';
 
 const GET_URL = 'https://23.javascript.pages.academy/keksobooking/data';
 const POST_URL = 'https://23.javascript.pages.academy/keksobooking';
@@ -26,7 +27,8 @@ const sendUserData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
         resetMap();
-        userAd.reset();
+        resetForm();
+        resetFilter();
       }
     })
     .catch(onFail);

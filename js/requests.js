@@ -30,6 +30,8 @@ const sendUserData = (onSuccess, onFail, body) => {
         resetForm();
         resetFilter();
       }
+
+      onFail();
     })
     .catch(onFail);
 };

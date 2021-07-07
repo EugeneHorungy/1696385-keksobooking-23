@@ -4,7 +4,6 @@ const userAdTitle = userAd.querySelector('input[name="title"]');
 const userAdPrice = userAd.querySelector('input[name="price"]');
 const userAdRooms = userAd.querySelector('select[name="rooms"]');
 const userAdCapacity = userAd.querySelector('select[name="capacity"]');
-// const optionsCapacity = Array.from(userAdCapacity.children;)  userAdCapacity.children;
 const optionsCapacity = Array.from(userAdCapacity.children);
 const userAdType = userAd.querySelector('select[name="type"]');
 const userAdCheckin = userAd.querySelector('select[name="timein"]');

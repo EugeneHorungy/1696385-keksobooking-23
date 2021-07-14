@@ -9,9 +9,28 @@ const filterForm = document.querySelector('.map__filters');
 const filterFormElements = filterForm.children;
 const resetButton = userAd.querySelector('.ad-form__reset');
 const userAdPrice = userAd.querySelector('input[name="price"]');
-const userPhotoChooser = userAd.querySelector('input[type=file]');
-const preview = userAd.querySelector('.ad-form-header__user-avatar');
+const userAvatarChooser = userAd.querySelector('input[name="avatar"]');
+const userAvatarPreview = userAd.querySelector('.ad-form-header__user-avatar');
+const userPhotoChooser = userAd.querySelector('input[name="images"]');
+const userPhotoPreviewContainer = userAd.querySelector('.ad-form__photo');
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+userAvatarChooser.addEventListener('change', () => {
+  const file = userAvatarChooser.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      userAvatarPreview.src = reader.result;
+    });
+
+    reader.readAsDataURL(file);
+  }
+});
 
 userPhotoChooser.addEventListener('change', () => {
   const file = userPhotoChooser.files[0];
@@ -23,7 +42,15 @@ userPhotoChooser.addEventListener('change', () => {
     const reader = new FileReader();
 
     reader.addEventListener('load', () => {
-      preview.src = reader.result;
+      const userPhotoPreview = document.createElement('img');
+      userPhotoPreview.src = reader.result;
+      userPhotoPreview.style.width = '60px';
+      userPhotoPreview.style.height = '60px';
+      userPhotoPreviewContainer.style.display = 'flex';
+      userPhotoPreviewContainer.style.alignItems = 'center';
+      userPhotoPreviewContainer.style.justifyContent = 'center';
+      userPhotoPreview.style.objectFit = 'cover';
+      userPhotoPreviewContainer.appendChild(userPhotoPreview);
     });
 
     reader.readAsDataURL(file);

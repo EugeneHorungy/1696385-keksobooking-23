@@ -1,5 +1,7 @@
 import {disablePage, activatePage} from './form.js';
 import {userAd} from './form.js';
+import {createCards} from './card.js';
+import {filterAds} from './filter.js';
 
 const map = L.map('map-canvas');
 const userAddress = userAd.querySelector('input[name="address"]');
@@ -46,8 +48,16 @@ userMarker.on('moveend', (evt) => {
   userAddress.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 
-const getPlacemarks = (adsData, cards) => {
-  for (let i = 0; i < adsData.length; i++) {
+const markerSet = L.layerGroup().addTo(map);
+
+const getPlacemarks = (adsData) => {
+
+  markerSet.clearLayers();
+
+  const filteredAds = filterAds(adsData);
+
+  const popups = createCards(filteredAds);
+  for (let i = 0; i < filteredAds.length; i++) {
     const icon = L.icon({
       iconUrl: 'img/pin.svg',
       iconSize: [40, 40],
@@ -56,16 +66,15 @@ const getPlacemarks = (adsData, cards) => {
 
     const marker = L.marker(
       {
-        lat: adsData[i].location.lat,
-        lng: adsData[i].location.lng,
+        lat: filteredAds[i].location.lat,
+        lng: filteredAds[i].location.lng,
       },
       {
         icon,
       },
     );
 
-    marker.addTo(map);
-    marker.bindPopup(cards[i]);
+    marker.addTo(markerSet).bindPopup(popups[i]);
   }
 };
 

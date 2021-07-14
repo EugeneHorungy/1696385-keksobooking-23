@@ -39,12 +39,13 @@ const disablePage = () => {
   Array.from(filterFormElements).forEach((element) => element.setAttribute('disabled', 'disabled'));
 };
 
-const activatePage = () => {
+const activateForm = () => {
   userAd.classList.remove('ad-form--disabled');
-  filterForm.classList.remove('map__filters--disabled');
-
   userAdFieldsets.forEach((fieldset) => fieldset.removeAttribute('disabled'));
+};
 
+const activateFilter = () => {
+  filterForm.classList.remove('map__filters--disabled');
   Array.from(filterFormElements).forEach((element) => element.removeAttribute('disabled'));
 };
 
@@ -65,4 +66,4 @@ resetButton.addEventListener('click', (evt) => {
   resetFilter();
 });
 
-export {userAd, disablePage, activatePage, resetForm};
+export {userAd, disablePage, activateForm, activateFilter, resetForm};

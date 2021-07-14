@@ -1,5 +1,5 @@
 import {resetMap} from './map.js';
-import {resetForm} from './form.js';
+import {resetForm, activateFilter} from './form.js';
 import {resetFilter} from './filter.js';
 
 const GET_URL = 'https://23.javascript.pages.academy/keksobooking/data';
@@ -9,6 +9,7 @@ const getAds = (onSuccess, onFail) => {
   fetch(GET_URL)
     .then((response) => {
       if (response.ok) {
+        activateFilter();
         return response.json();
       }
 

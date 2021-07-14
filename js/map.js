@@ -1,4 +1,4 @@
-import {disablePage, activatePage} from './form.js';
+import {activateForm} from './form.js';
 import {userAd} from './form.js';
 import {createCards} from './card.js';
 import {filterAds} from './filter.js';
@@ -6,23 +6,24 @@ import {filterAds} from './filter.js';
 const map = L.map('map-canvas');
 const userAddress = userAd.querySelector('input[name="address"]');
 
-disablePage();
+const initMap = (cb) => {
+  map.on('load', () => {
+    activateForm();
+    cb();
+  });
 
-map.on('load', () => {
-  activatePage();
-});
+  map.setView({
+    lat: 35.67500,
+    lng: 139.75000,
+  }, 13);
 
-map.setView({
-  lat: 35.67500,
-  lng: 139.75000,
-}, 13);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+};
 
 const mainPinMarker = L.icon({
   iconUrl: 'img/main-pin.svg',
@@ -90,4 +91,4 @@ const resetMap = () => {
   }, 13);
 };
 
-export {map, userMarker, getPlacemarks, resetMap};
+export {userMarker, getPlacemarks, resetMap, initMap};

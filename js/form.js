@@ -9,6 +9,26 @@ const filterForm = document.querySelector('.map__filters');
 const filterFormElements = filterForm.children;
 const resetButton = userAd.querySelector('.ad-form__reset');
 const userAdPrice = userAd.querySelector('input[name="price"]');
+const userPhotoChooser = userAd.querySelector('input[type=file]');
+const preview = userAd.querySelector('.ad-form-header__user-avatar');
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+userPhotoChooser.addEventListener('change', () => {
+  const file = userPhotoChooser.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      preview.src = reader.result;
+    });
+
+    reader.readAsDataURL(file);
+  }
+});
 
 const disablePage = () => {
   userAd.classList.add('ad-form--disabled');

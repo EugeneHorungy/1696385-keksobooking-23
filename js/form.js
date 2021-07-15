@@ -15,6 +15,8 @@ const userAvatarPreview = userAd.querySelector('.ad-form-header__user-avatar');
 const userPhotoChooser = userAd.querySelector('input[name="images"]');
 const userPhotoPreviewContainer = userAd.querySelector('.ad-form__photo');
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const DEFAULT_USER_AVATAR = 'img/muffin-grey.svg';
+const DEFAULT_USER_PRICE = 1000;
 
 userAvatarChooser.addEventListener('change', () => {
   const file = userAvatarChooser.files[0];
@@ -79,7 +81,9 @@ const activateFilter = () => {
 
 const resetForm = () => {
   userAd.reset();
-  userAdPrice.placeholder = 1000;
+  userAvatarPreview.src = DEFAULT_USER_AVATAR;
+  userPhotoPreviewContainer.textContent = '';
+  userAdPrice.placeholder = DEFAULT_USER_PRICE;
 };
 
 userAd.addEventListener('submit', (evt) => {

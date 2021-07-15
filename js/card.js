@@ -38,7 +38,7 @@ const getPhotos = (element, card, dataArray) => {
   }
 };
 
-function getType (type) {
+const getType = (type) => {
   switch (type) {
     case 'flat':
       return 'Квартира';
@@ -51,7 +51,7 @@ function getType (type) {
     case 'hotel':
       return 'Отель';
   }
-}
+};
 
 const isValue = (value, element) => {
   if (!value) {

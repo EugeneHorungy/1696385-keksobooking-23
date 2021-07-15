@@ -1,11 +1,21 @@
 import {getAds} from './requests.js';
-import {getPlacemarks} from './map.js';
-import {createCards} from './card.js';
+import {getPlacemarks, initMap} from './map.js';
 import {getModalError} from './modal.js';
-import './card.js';
+import {onFilterFormChange} from './filter.js';
+import {debounce} from './utils.js';
+import {disablePage, onResetButtonClick} from './form.js';
 import './map.js';
 import './form.js';
 import './form-validation.js';
-import './requests.js';
 
-getAds((ads) => getPlacemarks(ads.slice(0, 10), createCards(ads)), getModalError);
+disablePage();
+
+const getSimilarAds = () => {
+  getAds((ads) => {
+    getPlacemarks(ads);
+    onFilterFormChange(debounce(() => getPlacemarks(ads)));
+    onResetButtonClick(ads);
+  }, getModalError);
+};
+
+initMap(getSimilarAds);

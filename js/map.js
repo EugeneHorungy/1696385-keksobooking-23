@@ -1,26 +1,10 @@
-import {disablePage, activatePage} from './form.js';
+import {activateForm} from './form.js';
 import {userAd} from './form.js';
+import {createCards} from './card.js';
+import {filterAds} from './filter.js';
 
-const map = L.map('map-canvas');
 const userAddress = userAd.querySelector('input[name="address"]');
-
-disablePage();
-
-map.on('load', () => {
-  activatePage();
-});
-
-map.setView({
-  lat: 35.67500,
-  lng: 139.75000,
-}, 13);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+const map = L.map('map-canvas');
 
 const mainPinMarker = L.icon({
   iconUrl: 'img/main-pin.svg',
@@ -41,13 +25,40 @@ const userMarker = L.marker(
 
 userMarker.addTo(map);
 
+const initMap = (cb) => {
+  map.on('load', () => {
+    activateForm();
+    cb();
+  });
+
+  map.setView({
+    lat: 35.67500,
+    lng: 139.75000,
+  }, 13);
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+};
+
 // Забирает координаты от ручного перемещения красного маркера и передаёт их в инпут адреса.
 userMarker.on('moveend', (evt) => {
   userAddress.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 
-const getPlacemarks = (adsData, cards) => {
-  for (let i = 0; i < adsData.length; i++) {
+const markerSet = L.layerGroup().addTo(map);
+
+const getPlacemarks = (adsData) => {
+
+  markerSet.clearLayers();
+
+  const filteredAds = filterAds(adsData);
+
+  const popups = createCards(filteredAds);
+  for (let i = 0; i < filteredAds.length; i++) {
     const icon = L.icon({
       iconUrl: 'img/pin.svg',
       iconSize: [40, 40],
@@ -56,16 +67,15 @@ const getPlacemarks = (adsData, cards) => {
 
     const marker = L.marker(
       {
-        lat: adsData[i].location.lat,
-        lng: adsData[i].location.lng,
+        lat: filteredAds[i].location.lat,
+        lng: filteredAds[i].location.lng,
       },
       {
         icon,
       },
     );
 
-    marker.addTo(map);
-    marker.bindPopup(cards[i]);
+    marker.addTo(markerSet).bindPopup(popups[i]);
   }
 };
 
@@ -81,4 +91,4 @@ const resetMap = () => {
   }, 13);
 };
 
-export {map, userMarker, getPlacemarks, resetMap};
+export {userMarker, getPlacemarks, resetMap, initMap};

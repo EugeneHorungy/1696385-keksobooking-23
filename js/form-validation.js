@@ -9,6 +9,14 @@ const userAdType = userAd.querySelector('select[name="type"]');
 const userAdCheckin = userAd.querySelector('select[name="timein"]');
 const userAdCheckout = userAd.querySelector('select[name="timeout"]');
 
+const MinPriceValue = {
+  BUNGALOW: 0,
+  FLAT: 1000,
+  HOTEL: 3000,
+  HOUSE: 5000,
+  PALACE: 10000,
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   optionsCapacity[0].setAttribute('disabled', 'disabled');
   optionsCapacity[1].setAttribute('disabled', 'disabled');
@@ -69,6 +77,8 @@ userAdRooms.addEventListener('change', (evt) => {
     addAttributeDisabled([3]);
   } else if (evt.target.value === '100') {
     addAttributeDisabled([0, 1, 2]);
+    userAdCapacity.setCustomValidity('Выберите допустимое значение для этого поля.');
+    userAdCapacity.reportValidity();
   }
 });
 
@@ -80,19 +90,19 @@ const changePriceAttribute = (minPrice) => {
 userAdType.addEventListener('change', (evt) => {
   switch (evt.target.value) {
     case 'bungalow':
-      changePriceAttribute('0');
+      changePriceAttribute(`${MinPriceValue.BUNGALOW}`);
       break;
     case 'flat':
-      changePriceAttribute('1000');
+      changePriceAttribute(`${MinPriceValue.FLAT}`);
       break;
     case 'hotel':
-      changePriceAttribute('3000');
+      changePriceAttribute(`${MinPriceValue.HOTEL}`);
       break;
     case 'house':
-      changePriceAttribute('5000');
+      changePriceAttribute(`${MinPriceValue.HOUSE}`);
       break;
     case 'palace':
-      changePriceAttribute('10000');
+      changePriceAttribute(`${MinPriceValue.PALACE}`);
   }
 });
 

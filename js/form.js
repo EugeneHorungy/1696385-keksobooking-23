@@ -2,6 +2,7 @@ import {sendUserData} from './requests.js';
 import {showModalSuccess, showModalError} from './modal.js';
 import {resetMap} from './map.js';
 import {resetFilter} from './filter.js';
+import {getPlacemarks} from './map.js';
 
 const userAd = document.querySelector('.ad-form');
 const userAdFieldsets = userAd.querySelectorAll('fieldset');
@@ -49,7 +50,7 @@ userPhotoChooser.addEventListener('change', () => {
       userPhotoPreviewContainer.style.display = 'flex';
       userPhotoPreviewContainer.style.alignItems = 'center';
       userPhotoPreviewContainer.style.justifyContent = 'center';
-      userPhotoPreview.style.objectFit = 'cover';
+      userPhotoPreview.style.objectFit = 'contain';
       userPhotoPreviewContainer.appendChild(userPhotoPreview);
     });
 
@@ -86,11 +87,14 @@ userAd.addEventListener('submit', (evt) => {
   sendUserData(showModalSuccess, showModalError, new FormData(userAd));
 });
 
-resetButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetMap();
-  resetForm();
-  resetFilter();
-});
+const onResetButtonClick = (adsData) => {
+  resetButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    resetMap();
+    resetForm();
+    resetFilter();
+    getPlacemarks(adsData);
+  });
+};
 
-export {userAd, disablePage, activateForm, activateFilter, resetForm};
+export {userAd, disablePage, activateForm, activateFilter, resetForm, onResetButtonClick};

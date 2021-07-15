@@ -5,7 +5,7 @@ const selectRooms = filterForm.querySelector('select[name="housing-rooms"]');
 const selectGuests = filterForm.querySelector('select[name="housing-guests"]');
 const checkboxesFeatures = filterForm.querySelectorAll('input[name="features"]');
 
-const PRICE_VALUE = {
+const PriceValue = {
   LOW: {
     MIN: 0,
     MAX: 10000,
@@ -24,11 +24,11 @@ const filterType = (element) => element.offer.type === selectType.value || selec
 const filterPrice = (element) => {
   switch (selectPrice.value) {
     case 'low':
-      return element.offer.price >= PRICE_VALUE.LOW.MIN && element.offer.price <= PRICE_VALUE.LOW.MAX;
+      return element.offer.price >= PriceValue.LOW.MIN && element.offer.price <= PriceValue.LOW.MAX;
     case 'middle':
-      return element.offer.price >= PRICE_VALUE.MIDDLE.MIN && element.offer.price <= PRICE_VALUE.MIDDLE.MAX;
+      return element.offer.price >= PriceValue.MIDDLE.MIN && element.offer.price <= PriceValue.MIDDLE.MAX;
     case 'high':
-      return element.offer.price >= PRICE_VALUE.HIGH.MIN;
+      return element.offer.price >= PriceValue.HIGH.MIN;
     case 'any':
       return true;
   }

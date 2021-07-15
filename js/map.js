@@ -3,27 +3,8 @@ import {userAd} from './form.js';
 import {createCards} from './card.js';
 import {filterAds} from './filter.js';
 
-const map = L.map('map-canvas');
 const userAddress = userAd.querySelector('input[name="address"]');
-
-const initMap = (cb) => {
-  map.on('load', () => {
-    activateForm();
-    cb();
-  });
-
-  map.setView({
-    lat: 35.67500,
-    lng: 139.75000,
-  }, 13);
-
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  ).addTo(map);
-};
+const map = L.map('map-canvas');
 
 const mainPinMarker = L.icon({
   iconUrl: 'img/main-pin.svg',
@@ -43,6 +24,25 @@ const userMarker = L.marker(
 );
 
 userMarker.addTo(map);
+
+const initMap = (cb) => {
+  map.on('load', () => {
+    activateForm();
+    cb();
+  });
+
+  map.setView({
+    lat: 35.67500,
+    lng: 139.75000,
+  }, 13);
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+};
 
 // Забирает координаты от ручного перемещения красного маркера и передаёт их в инпут адреса.
 userMarker.on('moveend', (evt) => {

@@ -5,6 +5,8 @@ const selectRooms = filterForm.querySelector('select[name="housing-rooms"]');
 const selectGuests = filterForm.querySelector('select[name="housing-guests"]');
 const checkboxesFeatures = filterForm.querySelectorAll('input[name="features"]');
 
+const AMOUNT_SIMILAR_ADS = 10;
+
 const PriceValue = {
   LOW: {
     MIN: 0,
@@ -38,23 +40,26 @@ const filterRooms = (element) => element.offer.rooms === Number(selectRooms.valu
 
 const filterGuests = (element) => element.offer.guests === Number(selectGuests.value) || selectGuests.value === 'any';
 
-const filterFeatures = (ads) => {
+const filterFeatures = (element) => {
   const currentFeatures = Array.from(checkboxesFeatures).filter((checkbox) => checkbox.checked);
-  const filteredAds = ads.slice().filter((ad) =>
-    currentFeatures.every((feature) =>
-      Object.prototype.hasOwnProperty.call(ad.offer, 'features') && ad.offer.features.includes(feature.value)));
-
-  return filteredAds;
+  return currentFeatures.every((feature) =>
+    Object.prototype.hasOwnProperty.call(element.offer, 'features') && element.offer.features.includes(feature.value));
 };
 
 const filterAds = (adsData) => {
-  const similarAds = adsData.slice();
-  const filteredAds = filterFeatures(similarAds)
-    .filter(filterType)
-    .filter(filterPrice)
-    .filter(filterRooms)
-    .filter(filterGuests)
-    .slice(0,10);
+  const filteredAds = [];
+
+  for (let i = 0; i < adsData.length && filteredAds.length < AMOUNT_SIMILAR_ADS; i++) {
+    if (
+      filterType(adsData[i]) &&
+      filterPrice(adsData[i]) &&
+      filterRooms(adsData[i]) &&
+      filterGuests(adsData[i]) &&
+      filterFeatures(adsData[i])
+    ) {
+      filteredAds.push(adsData[i]);
+    }
+  }
 
   return filteredAds;
 };
@@ -69,4 +74,4 @@ const resetFilter = () => {
   filterForm.reset();
 };
 
-export {resetFilter, onFilterFormChange, filterAds};
+export { resetFilter, onFilterFormChange, filterAds };

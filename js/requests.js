@@ -1,6 +1,6 @@
-import {resetMap} from './map.js';
-import {resetForm, activateFilter} from './form.js';
-import {resetFilter} from './filter.js';
+import { resetMap } from './map.js';
+import { resetForm } from './form.js';
+import { resetFilter } from './filter.js';
 
 const GET_URL = 'https://23.javascript.pages.academy/keksobooking/data';
 const POST_URL = 'https://23.javascript.pages.academy/keksobooking';
@@ -9,7 +9,6 @@ const getAds = (onSuccess, onFail) => {
   fetch(GET_URL)
     .then((response) => {
       if (response.ok) {
-        activateFilter();
         return response.json();
       }
 
@@ -37,4 +36,4 @@ const sendUserData = (onSuccess, onFail, body) => {
     .catch(onFail);
 };
 
-export {getAds, sendUserData};
+export { getAds, sendUserData };

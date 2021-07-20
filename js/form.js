@@ -1,8 +1,8 @@
-import {sendUserData} from './requests.js';
-import {showModalSuccess, showModalError} from './modal.js';
-import {resetMap} from './map.js';
-import {resetFilter} from './filter.js';
-import {getPlacemarks} from './map.js';
+import { sendUserData } from './requests.js';
+import { showModalSuccess, showModalError } from './modal.js';
+import { resetMap } from './map.js';
+import { resetFilter } from './filter.js';
+import { getPlacemarks } from './map.js';
 
 const userAd = document.querySelector('.ad-form');
 const userAdFieldsets = userAd.querySelectorAll('fieldset');
@@ -101,4 +101,4 @@ const onResetButtonClick = (adsData) => {
   });
 };
 
-export {userAd, disablePage, activateForm, activateFilter, resetForm, onResetButtonClick};
+export { userAd, disablePage, activateForm, activateFilter, resetForm, onResetButtonClick };
